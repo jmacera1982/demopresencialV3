@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: blob: https:; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tailwindcss.com https://unpkg.com https://debq2.debmedia.com; connect-src 'self' https: wss:; frame-src 'self' https:; worker-src 'self' blob:; media-src 'self' data: blob: https:; form-action 'self' https:;">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tótem de Atención - Salud</title>
+  <link rel="icon" type="image/png" href="images/N.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/ integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/totem/common.css" />
+  <link rel="stylesheet" href="assets/css/totem/totem-salud.css" />
+</head>
+<body>
+  <script src="auth-portal.js" integrity="sha384-74EWFvH2m+aMjmQBpBiZyYeyAqC6jGuHtfv/vSH++XsVRcNEOWeyMNyLNP0p/rG1" crossorigin="anonymous"></script>
+  <script src="assets/js/totem/auth-portal-init.js" integrity="sha384-qtXa0BOCcvU3oXrTG9qhBBFxjJy25O1tc6Q811yuP0DPD91J5JPXk5XXYVuc2uzh" crossorigin="anonymous"></script>
+  <!-- Contenedor del tótem -->
+  <div class="totem-container">
+    <!-- Header -->
+    <div class="totem-header">
+      <img src="images/numia.png" alt="Numia" class="totem-header-image">
+    </div>
+    
+    <!-- Contenido del tótem -->
+    <div class="totem-content">
+      <!-- Pantalla 0: Demanda espontánea o Citas -->
+      <div class="screen-opciones active" id="screenTipoAtencion">
+        <h2>¿Cómo desea ser atendido?</h2>
+        <div class="subtitle">Seleccione el tipo de atención</div>
+        <div class="opciones-grid" id="tipoAtencionGrid">
+          <div class="opcion-card totem-option-card--demand is-clickable" data-tipo="demanda">
+            <div class="opcion-icon totem-icon--primary">
+              <i class="bi bi-person-plus"></i>
+            </div>
+            <div class="opcion-title">Demanda espontánea</div>
+            <div class="opcion-desc">Atención sin cita previa</div>
+          </div>
+          <div class="opcion-card totem-option-card--success is-clickable" data-tipo="cita">
+            <div class="opcion-icon totem-icon--success">
+              <i class="bi bi-calendar-check"></i>
+            </div>
+            <div class="opcion-title">Citas programadas</div>
+            <div class="opcion-desc">Ya tiene una cita agendada</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pantalla 1: Ingreso de DNI -->
+      <div class="screen-dni is-hidden" id="screenDni">
+        <!-- Mensaje entre logo y teclado -->
+        <div class="instruction totem-instruction--compact">Bienvenido! Por favor ingrese su dni</div>
+        
+        <div class="dni-display empty" id="dniDisplay"></div>
+        
+        <div class="keypad">
+          <button class="keypad-btn" data-number="1">1</button>
+          <button class="keypad-btn" data-number="2">2</button>
+          <button class="keypad-btn" data-number="3">3</button>
+          <button class="keypad-btn" data-number="4">4</button>
+          <button class="keypad-btn" data-number="5">5</button>
+          <button class="keypad-btn" data-number="6">6</button>
+          <button class="keypad-btn" data-number="7">7</button>
+          <button class="keypad-btn" data-number="8">8</button>
+          <button class="keypad-btn" data-number="9">9</button>
+        </div>
+        
+        <div class="keypad-row-bottom">
+          <button class="keypad-btn empty"></button>
+          <button class="keypad-btn" data-number="0">0</button>
+          <button class="keypad-btn delete" id="btnDelete">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        </div>
+        
+        <button class="btn-continuar" id="btnContinuar" disabled>Continuar</button>
+      </div>
+      
+      <!-- Pantalla 2: Opciones demanda espontánea (Nutrición, Laboratorio, Clínico) -->
+      <div class="screen-opciones is-hidden" id="screenDemandaOpciones">
+        <h2>Seleccione la especialidad</h2>
+        <div class="subtitle">Demanda espontánea</div>
+        <div class="opciones-grid" id="demandaOpcionesGrid">
+          <div class="opcion-card opcion-demanda" data-especialidad="nutricion">
+            <div class="opcion-icon totem-icon--primary"><i class="bi bi-egg"></i></div>
+            <div class="opcion-title">Nutrición</div>
+          </div>
+          <div class="opcion-card opcion-demanda" data-especialidad="laboratorio">
+            <div class="opcion-icon totem-icon--primary"><i class="bi bi-droplet"></i></div>
+            <div class="opcion-title">Laboratorio</div>
+          </div>
+          <div class="opcion-card opcion-demanda" data-especialidad="clinico">
+            <div class="opcion-icon totem-icon--primary"><i class="bi bi-heart-pulse"></i></div>
+            <div class="opcion-title">Clínico</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pantalla 3: Cita Cardiología (con Check-in) -->
+      <div class="screen-opciones is-hidden" id="screenCitaCardiologia">
+        <h2>Su cita programada</h2>
+        <div class="subtitle">DNI: <span id="dniCitaDisplay"></span></div>
+        <div class="opciones-grid totem-grid--single">
+          <div class="opcion-card totem-card--appointment">
+            <div class="opcion-icon totem-icon--success totem-icon--xl"><i class="bi bi-heart-pulse"></i></div>
+            <div class="opcion-title totem-title--large">Cardiología</div>
+            <div class="opcion-desc totem-copy--spaced">Tiene una cita agendada para mañana</div>
+            <button class="btn-continuar totem-btn--compact" id="btnCheckin">
+              <i class="bi bi-check-circle me-2"></i>Check-in
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pantalla: Forma de pago (tras especialidad en demanda o check-in en citas; opciones visibles solo al terminar el análisis simulado) -->
+      <div class="screen-opciones is-hidden" id="screenPago">
+        <h2>Forma de pago</h2>
+        <div class="subtitle totem-subtitle--muted" id="pagoSubtituloEspera">
+          <i class="bi bi-hourglass-split me-2"></i>Completando análisis del agente… Las opciones de pago se habilitarán al finalizar.
+        </div>
+        <div class="subtitle is-hidden" id="pagoSubtituloElegir">Seleccione cómo desea abonar</div>
+        <div class="opciones-grid is-hidden totem-grid--double" id="pagoOpcionesRow">
+          <div class="opcion-card opcion-pago-qr" id="btnPagoQr" role="button" tabindex="0">
+            <div class="opcion-icon totem-icon--teal"><i class="bi bi-qr-code"></i></div>
+            <div class="opcion-title">Pago con QR</div>
+            <div class="opcion-desc">Abone con su billetera o banca móvil</div>
+          </div>
+          <div class="opcion-card opcion-pago-caja" id="btnPagoCaja" role="button" tabindex="0">
+            <div class="opcion-icon totem-icon--primary"><i class="bi bi-cash-coin"></i></div>
+            <div class="opcion-title">Pago en caja</div>
+            <div class="opcion-desc">Encolar turno para abonar en ventanilla</div>
+          </div>
+        </div>
+        <div id="pagoQrSimulacion" class="is-hidden totem-payment-qr">
+          <p class="totem-payment-caption">Escaneé el código para simular el pago</p>
+          <div class="qr-sim-wrap">
+            <img id="imgQrPagoSimulado" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=NUMIA-SALUD-PAGO-DEMO" width="220" height="220" alt="Código QR de pago (demo)" />
+          </div>
+          <p class="subtitle totem-stack--tight"><i class="bi bi-hourglass-split me-1"></i>Procesando pago… espere</p>
+        </div>
+      </div>
+      
+      <!-- Pantalla 4: Opciones de atención (legacy - para compatibilidad) -->
+      <div class="screen-opciones is-hidden" id="screenOpciones">
+        <h2>Seleccione su preferencia</h2>
+        <div class="subtitle">Elija cómo desea ser atendido</div>
+        <div class="opciones-grid" id="opcionesGrid"></div>
+      </div>
+      
+      <!-- Pantalla 5: Confirmación -->
+      <div class="screen-confirmacion" id="screenConfirmacion">
+        <div class="success-icon">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <h2>¡Atención solicitada!</h2>
+        <div class="message">
+          En breve uno de nuestros asesores lo atenderá.<br>
+          Por favor, manténgase en línea.
+        </div>
+        
+        <div class="tiempo-espera is-hidden" id="numeroTurnoBlock">
+          <div class="tiempo-espera-label">Número de turno</div>
+          <div class="tiempo-espera-valor" id="numeroTurnoValor">--</div>
+        </div>
+        
+        <div class="tiempo-espera is-hidden" id="tiempoEspera">
+          <div class="tiempo-espera-label">Tiempo de espera estimado</div>
+          <div class="tiempo-espera-valor" id="tiempoEsperaValor">--</div>
+        </div>
+        
+        <div class="video-link-container is-hidden" id="videoLinkContainer">
+          <a href="#" id="btnVideoLink" class="btn-video" target="_blank" rel="noopener noreferrer">
+            <i class="bi bi-camera-video me-2"></i>Iniciar Videollamada
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Contenedor de Logs a la derecha -->
+  <div class="log-container">
+    <div class="log-header">
+      Análisis del Agente
+    </div>
+    <div class="log-content">
+      <div id="atencionSection" class="atencion-section">
+        <div id="stepsContainer" class="steps-container">
+          <!-- Los pasos se agregarán aquí dinámicamente -->
+        </div>
+        
+        <div id="summarySection" class="summary-section is-hidden">
+          <div class="summary-title">
+            <i class="bi bi-check-circle-fill"></i>
+            Resumen del Análisis
+          </div>
+          <div id="summaryContent" class="summary-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="assets/js/shared/api-client.js" integrity="sha384-b/p40FT/5XXkNy7YC6XbaXRp1igzcpWmGB1YAGJzJJBvqKuwOpLgWb6MhHHM06wI" crossorigin="anonymous"></script>
+  <script src="assets/js/shared/journey-api.js" integrity="sha384-Xb8m/gvtKBnY8JsY7/KQ98EAH5m+DN6AUdnZCr3lYNGL0p1ganb2J5NIXpp30dm1" crossorigin="anonymous"></script>
+  <script src="assets/js/shared/demo-users.js" integrity="sha384-nB/29ALja1dmbA/DCxcettK/CfregLg9eF0vDP5bYHm8UzAJkW5m88A84ueKKJqR" crossorigin="anonymous"></script>
+  <script src="assets/js/shared/fila-virtual-api.js" integrity="sha384-W2FVZuoQ/r9cqrSpNbk0wehzKOCRZCRnNfimodwlQaOJldMVGjdfZJjBqhzJxZuF" crossorigin="anonymous"></script>
+  <script src="assets/js/totem/totem-salud.js" integrity="sha384-MYBn1jZBF7/PFVgRhfDn2H2tx7cnyr8L3eosw8idHxeqd9lzwZwiuHWXcWVvdjmW" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: blob: https:; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tailwindcss.com https://unpkg.com https://debq2.debmedia.com; connect-src 'self' https: wss:; frame-src 'self' https:; worker-src 'self' blob:; media-src 'self' data: blob: https:; form-action 'self' https:;">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Workforce Management - Autobanco Kennedy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/ integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="assets/css/shared/workforce-management.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js" integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Main Header -->
+  <header class="main-header">
+    <img src="images/logonumia.png" alt="Numia" class="header-logo">
+  </header>
+  
+  <div class="main-container">
+    <!-- Dashboard Content -->
+    <div class="dashboard-content" id="dashboardContent">
+      <!-- Header -->
+      <div class="dashboard-header">
+        <div class="date-info">Estás viendo los datos de la semana actual.</div>
+        <div class="top-controls">
+          <div class="week-selector-container">
+            <div class="date-selector">
+              <span>Seleccionar semana</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+          </div>
+          <button class="config-button" id="configButton">
+            Configurar simulación
+          </button>
+        </div>
+        <div class="kpi-description">Los KPIs del panel principal muestran el promedio semanal de la sucursal.</div>
+      </div>
+      
+      <!-- KPI Cards -->
+      <div class="kpi-grid" id="kpiGrid">
+        <div class="kpi-card">
+          <div class="kpi-label">Ingresos esperados</div>
+          <div class="kpi-value" id="kpiIngresos">262</div>
+          <div class="kpi-change positive">
+            <i class="bi bi-arrow-up"></i>
+            <span id="kpiIngresosChange">+7.0%</span>
+          </div>
+          <div class="kpi-average">Promedio histórico sucursal (NaNd): 244 turnos</div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-label">Probabilidad de abandono</div>
+          <div class="kpi-value" id="kpiAbandono">0.0%</div>
+          <div class="kpi-change positive">
+            <i class="bi bi-arrow-down"></i>
+            <span id="kpiAbandonoChange">-99.8%</span>
+          </div>
+          <div class="kpi-average">Promedio histórico sucursal (NaNd): 4.6%</div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-label">Tiempo prom. de espera</div>
+          <div class="kpi-value" id="kpiTiempoEspera">5m 22s</div>
+          <div class="kpi-change positive">
+            <i class="bi bi-arrow-down"></i>
+            <span id="kpiTiempoEsperaChange">-69.1%</span>
+          </div>
+          <div class="kpi-average">Promedio histórico sucursal (NaNd): 17m 23s</div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-label">Agentes de atención</div>
+          <div class="kpi-value" id="kpiAgentes">7</div>
+          <div class="kpi-change negative">
+            <i class="bi bi-arrow-down"></i>
+            <span id="kpiAgentesChange">-1.9%</span>
+          </div>
+          <div class="kpi-average">Promedio histórico sucursal (NaNd): 7 agentes</div>
+        </div>
+      </div>
+      
+      <!-- Detalle por sala de espera Chart -->
+      <div class="chart-card full-width-chart">
+        <div class="chart-title">Detalle por sala de espera</div>
+        <div class="chart-container">
+          <canvas id="waitingRoomChart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Charts Section -->
+      <div class="charts-section">
+        <div class="chart-card">
+          <div class="chart-title">Ingresos de clientes esperado</div>
+          <div class="chart-container">
+            <canvas id="incomeChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="chart-card">
+          <div class="chart-title">Tiempos de espera</div>
+          <div class="chart-controls">
+            <div class="chart-control">
+              <label>Vista:</label>
+              <select class="chart-select">
+                <option>Sala de espera</option>
+              </select>
+            </div>
+            <div class="chart-control">
+              <label>Sala:</label>
+              <select class="chart-select" id="waitingTimeSelect">
+                <option>Caja 1</option>
+                <option>Caja 2</option>
+                <option>Caja 3</option>
+                <option>Caja 4</option>
+                <option>Caja 5</option>
+              </select>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="waitingTimeChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Coverage Table -->
+      <div class="table-card">
+        <div class="chart-title">Cobertura de usuarios por trámite</div>
+        <table class="coverage-table" id="coverageTable">
+          <thead>
+            <tr>
+              <th>Trámite</th>
+              <th>Participación</th>
+              <th>Ingresos estimados</th>
+            </tr>
+          </thead>
+          <tbody id="coverageTableBody">
+            <tr>
+              <td>Otras Transacciones</td>
+              <td>25.1%</td>
+              <td>64</td>
+            </tr>
+            <tr>
+              <td>Operaciones en Caja</td>
+              <td>19.0%</td>
+              <td>49</td>
+            </tr>
+            <tr>
+              <td>Retiros</td>
+              <td>17.9%</td>
+              <td>46</td>
+            </tr>
+            <tr>
+              <td>Depósitos</td>
+              <td>13.7%</td>
+              <td>35</td>
+            </tr>
+            <tr>
+              <td>Otras Gestiones de Servicio</td>
+              <td>5.8%</td>
+              <td>15</td>
+            </tr>
+            <tr>
+              <td>Gestiones de Tarjetas</td>
+              <td>5.2%</td>
+              <td>13</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Simulation Pop-up -->
+    <div class="simulation-popup" id="simulationPopup">
+      <div class="popup-header">
+        <div class="popup-title">Simulación de escenario</div>
+        <button class="close-popup" id="closePopup">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      
+      <div class="simulation-popup-intro">
+        Ajustá las variables disponibles para proyectar un escenario sin modificar datos operativos.
+      </div>
+      
+      <div class="simulation-section-title">Parámetros</div>
+      
+      <div class="form-group">
+        <label class="form-label">Fecha (cualquier día)</label>
+        <input type="date" class="form-input" id="simDate" value="2026-04-22">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Hora</label>
+        <select class="form-input" id="simTime">
+          <option>10:00</option>
+          <option>11:00</option>
+          <option>12:00</option>
+          <option>13:00</option>
+          <option>14:00</option>
+          <option>15:00</option>
+          <option>16:00</option>
+          <option>17:00</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Agentes activos</label>
+        <input type="number" class="form-input" id="simAgents" value="8" min="1" max="20">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Ajuste de demanda (%)</label>
+        <input type="number" class="form-input" id="simDemand" value="10" min="-50" max="100">
+        <div class="form-hint">Sucursal Autobanco Kennedy: base histórica 7 agentes.</div>
+      </div>
+      
+      <div class="popup-buttons">
+        <button class="btn-cancel" id="cancelButton">Cancelar</button>
+        <button class="btn-update" id="updateButton">Actualizar proyección</button>
+      </div>
+      
+      <div class="simulated-results" id="simulatedResults">
+        <div class="simulation-section-title">Resultado simulado</div>
+        <div class="simulated-intro">
+          Ejecutá la simulación para ver los KPIs proyectados en este panel.
+        </div>
+        
+        <div class="simulated-kpi-card">
+          <div class="simulated-kpi-label">Ingresos esperados</div>
+          <div class="simulated-kpi-value empty" id="simIngresos">—</div>
+          <div class="simulated-kpi-change is-hidden" id="simIngresosChange">—</div>
+        </div>
+        
+        <div class="simulated-kpi-card">
+          <div class="simulated-kpi-label">Probabilidad de abandono</div>
+          <div class="simulated-kpi-value empty" id="simAbandono">—</div>
+          <div class="simulated-kpi-change is-hidden" id="simAbandonoChange">—</div>
+        </div>
+        
+        <div class="simulated-kpi-card">
+          <div class="simulated-kpi-label">Tiempo prom. de espera</div>
+          <div class="simulated-kpi-value empty" id="simTiempoEspera">—</div>
+          <div class="simulated-kpi-change is-hidden" id="simTiempoEsperaChange">—</div>
+        </div>
+        
+        <div class="simulated-kpi-card">
+          <div class="simulated-kpi-label">Agentes activos</div>
+          <div class="simulated-kpi-value empty" id="simAgentes">—</div>
+          <div class="simulated-kpi-change is-hidden" id="simAgentesChange">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/shared/workforce-management-inline-1.js" integrity="sha384-eB2kXBbJKMCIdXTMhInBiDNTErI3deQWk9OxCDIp9IVrBDs4Ig/QVspjatK5q4nU" crossorigin="anonymous"></script>
+</body>
+</html>

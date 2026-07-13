@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: blob: https:; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tailwindcss.com https://unpkg.com https://debq2.debmedia.com; connect-src 'self' https: wss:; frame-src 'self' https:; worker-src 'self' blob:; media-src 'self' data: blob: https:; form-action 'self' https:;">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Acceso — Numia</title>
+  <link rel="icon" type="image/png" href="images/N.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/ integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/shared/login.css">
+</head>
+<body>
+  <div class="login-card">
+    <div class="login-head">
+      <img src="images/numia.png" alt="Numia" />
+      <div class="fw-semibold">Acceso demo unificado</div>
+      <div class="small opacity-75 mt-1">Tótem · Tótem Salud · App cliente · QR · App Salud</div>
+    </div>
+    <div class="login-body">
+      <p class="text-muted small mb-3">
+        Ingresá la misma contraseña que en el hub (<code>index.html</code>). La sesión vale para esta ventana del navegador.
+      </p>
+      <form id="formLogin" autocomplete="on">
+        <div class="mb-3">
+          <label class="form-label" for="pwd">Contraseña</label>
+          <input type="password" class="form-control form-control-lg" id="pwd" name="password" required autocomplete="current-password" />
+        </div>
+        <div class="alert alert-danger py-2 small d-none" id="err" role="alert"></div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary btn-entrar text-white" id="btnSubmit">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+          </button>
+          <a href="index.html" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-house me-1"></i>Volver al hub
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="auth-portal.js" integrity="sha384-74EWFvH2m+aMjmQBpBiZyYeyAqC6jGuHtfv/vSH++XsVRcNEOWeyMNyLNP0p/rG1" crossorigin="anonymous"></script>
+  <script src="assets/js/shared/login-inline-1.js" integrity="sha384-STWepH3Ub8QQSlZDik89lX55NxVdNy8CuiwVaUnaVP0g6HJWPen3al708oHtLj6a" crossorigin="anonymous"></script>
+</body>
+</html>

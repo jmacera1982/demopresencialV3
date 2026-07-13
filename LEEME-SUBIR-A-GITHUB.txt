@@ -1,0 +1,57 @@
+demopresenciaV2 — carpeta lista para subir a GitHub
+====================================================
+
+Esta carpeta contiene SOLO lo que debe ir al repositorio.
+NO incluye secretos ni dependencias instaladas.
+
+COMO SUBIR A GITHUB (web)
+-------------------------
+1. Crear repo vacio: https://github.com/new
+   Nombre: demopresenciaV2
+
+2. En el repo: Add file -> Upload files
+
+3. Arrastrar TODO el contenido de ESTA carpeta
+   (archivos y carpetas de adentro, no la carpeta "demopresenciaV2-subir" envuelta)
+
+4. Commit message: Publicar demo presencial V2
+
+5. Commit changes
+
+
+QUE NO DEBE APARECER EN GITHUB
+------------------------------
+- server/.env
+- server/data/demo-users.json
+- server/node_modules/
+- client/node_modules/
+- server.zip
+
+
+DESPUES EN RENDER
+-----------------
+Web Service conectado al repo demopresenciaV2
+
+  Root Directory:  server
+  Build Command:   npm ci
+  Start Command:   node index.js
+
+Variables minimas (Environment):
+
+  NODE_ENV=production
+  SESSION_SECRET=<32+ caracteres aleatorios>
+  DEMO_PORTAL_PASSWORD=numia2026
+  COOKIE_SECURE=true
+  COOKIE_HTTPONLY=true
+  COOKIE_SAMESITE=strict
+  TRUST_PROXY=true
+  DEMO_USERS_FILE=./data/demo-users.example.json
+
+Completar en Render las API keys reales (JOURNEY_API_KEY, flujos UUID, etc.)
+segun server/.env.example
+
+
+PROBAR
+------
+  https://TU-SERVICIO.onrender.com/login.html   (password: numia2026)
+  https://TU-SERVICIO.onrender.com/app-cliente.html

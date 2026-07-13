@@ -1,0 +1,21 @@
+# Secretos y datos sensibles (nunca commitear)
+.env
+.env.*
+!.env.example
+server/.env
+server/data/demo-users.json
+*.pem
+*.key
+
+# Dependencias (commitear lockfile + meta; instalar con npm ci en CI/producción)
+server/node_modules/
+client/node_modules/
+
+# Artefactos locales
+server.zip
+*.zip
+
+# Entorno local / IDE
+.cursor/
+Thumbs.db
+desktop.ini

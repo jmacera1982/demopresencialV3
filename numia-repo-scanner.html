@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tailwindcss.com https://unpkg.com https://debq2.debmedia.com; connect-src 'self' https: wss:; frame-src 'self' https:; worker-src 'self' blob:; media-src 'self' data: blob: https:; form-action 'self' https:;">
+
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+  <meta name="referrer" content="strict-origin">
+
+  <meta name="robots" content="noindex, nofollow">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repo Security Scanner · Numia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="assets/css/pages/numia-repo-scanner.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <div class="logo-mark">N</div>
+    <div class="logo-text">Repo <span>Scanner</span></div>
+  </div>
+  <div class="hbadges">
+    <span class="hbadge on">OWASP Top 10</span>
+    <span class="hbadge">Numia Standards</span>
+    <span class="hbadge">SOLID</span>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="eyebrow">Security Analysis</div>
+    <h1>Encontrá vulnerabilidades<br>antes de <em>publicar</em></h1>
+    <p>Subí el ZIP de tu repositorio y obtené un análisis completo basado en OWASP Top 10 2021 y los estándares de Numia.</p>
+  </div>
+
+  <!-- INPUT PANEL -->
+  <div id="panel-input">
+
+    <input type="hidden" id="api-key" value="TU_API_KEY_ACA" />
+
+    <!-- UPLOAD -->
+    <div class="card">
+      <span class="card-label">Repositorio (.zip)</span>
+      <div class="drop" id="drop" role="button" tabindex="0" aria-label="Seleccionar archivo ZIP">
+        <div class="drop-icon" id="drop-icon">📦</div>
+        <div class="drop-title" id="drop-title">Seleccioná el ZIP de tu repo</div>
+        <div class="drop-sub" id="drop-sub">GitHub → Code → Download ZIP · Máx 50MB</div>
+      </div>
+      <input type="file" id="fi" accept=".zip" />
+    </div>
+
+    <!-- OPTIONS -->
+    <div class="card">
+      <span class="card-label">Tipo de análisis</span>
+      <div class="opts">
+        <div class="opt on" id="opt-full" data-mode="full" role="button" tabindex="0">
+          <div class="opt-t">🛡 OWASP completo</div>
+          <div class="opt-d">Los 10 riesgos + Numia standards</div>
+        </div>
+        <div class="opt" id="opt-secrets" data-mode="secrets" role="button" tabindex="0">
+          <div class="opt-t">🔑 Secrets & credenciales</div>
+          <div class="opt-d">A02 + nunca hardcodear</div>
+        </div>
+        <div class="opt" id="opt-injection" data-mode="injection" role="button" tabindex="0">
+          <div class="opt-t">💉 Injection & auth</div>
+          <div class="opt-d">A01, A03, A07 OWASP</div>
+        </div>
+        <div class="opt" id="opt-deps" data-mode="deps" role="button" tabindex="0">
+          <div class="opt-t">📦 Dependencias</div>
+          <div class="opt-d">A06 — CVEs en librerías</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="err-box" id="err"></div>
+
+    <button class="btn-primary" id="scan-btn" disabled>
+      🔍 Escanear repositorio
+    </button>
+  </div>
+
+  <!-- LOADING -->
+  <div class="card loading" id="panel-loading">
+    <div class="loading-row">
+      <div class="spinner"></div>
+      <div class="loading-msg" id="lmsg">Iniciando...</div>
+    </div>
+    <div class="logs" id="logs"></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="panel-results">
+    <div id="r-risk"></div>
+    <div class="metrics" id="r-metrics"></div>
+    <div class="owasp-section" id="r-owasp"></div>
+    <div id="r-vulns"></div>
+    <div id="r-imps"></div>
+    <div class="btn-row">
+      <button class="btn-report" id="btnExportReport">📄 Exportar reporte HTML</button>
+      <button class="btn-secondary" id="btnResetScan">↺ Nuevo escaneo</button>
+    </div>
+  </div>
+
+</div>
+
+  <script src="assets/js/pages/numia-repo-scanner.js" integrity="sha384-J2sO3h42j6RzYZlP5MymtTEzQ98UbpKuM0bz+GN7H4FnsxjOWQcIbjbq2Kfw9Gci" crossorigin="anonymous"></script>
+</body>
+</html>

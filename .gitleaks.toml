@@ -1,0 +1,26 @@
+title = "Demopresencial"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Placeholders, lockfiles e integridad SRI"
+paths = [
+  '''(^|/)\.env\.example$''',
+  '''(^|/)server/\.env\.example$''',
+  '''(^|/)client/package-lock\.json$''',
+  '''(^|/)client/package-lock\.meta\.json$''',
+  '''(^|/)server/package-lock\.json$''',
+  '''(^|/)server/package-lock\.meta\.json$''',
+  '''(^|/)assets/js/shared/sri-manifest\.json$''',
+  '''(^|/)client/third-party-manifest\.json$''',
+]
+
+[allowlist.regexes]
+description = "Placeholders documentados en .env.example"
+regexes = [
+  '''<token-aleatorio-min-32-chars>''',
+  '''<secreto-aleatorio-min-32-chars>''',
+  '''<password-portal-min-8-chars>''',
+  '''<uuid-v4-''',
+]
