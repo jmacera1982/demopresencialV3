@@ -1,0 +1,28 @@
+{
+  "name": "demopresencial-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Proxy backend para Journey Builder y Fila Virtual (secrets solo en servidor)",
+  "main": "index.js",
+  "scripts": {
+    "predeploy": "node scripts/verify-lockfile.js && npm audit --audit-level=moderate",
+    "prestart": "npm run predeploy",
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "install:ci": "npm ci && npm run predeploy",
+    "lockfile:sync": "npm install --package-lock-only && node scripts/verify-lockfile.js --update-meta",
+    "lockfile:verify": "node scripts/verify-lockfile.js",
+    "audit": "npm audit --audit-level=moderate",
+    "audit:fix": "npm audit fix --dry-run"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "16.4.7",
+    "express": "4.21.2",
+    "express-rate-limit": "7.5.0",
+    "express-session": "1.18.1",
+    "helmet": "8.1.0"
+  }
+}
